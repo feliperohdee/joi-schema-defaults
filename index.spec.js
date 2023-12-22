@@ -89,6 +89,11 @@ const primarySchema = {
     dateDefaultFuncAsync: joi.date().default(async () => {
         return 582346800000;
     }),
+	// date timestamp javascript
+	dateTimestamp: joi.date().timestamp().default(582346800000),
+	dateTimestampJavascript: joi.date().timestamp('javascript').default(582346800000),
+	// date timestamp unix
+	dateTimestampUnix: joi.date().timestamp('unix').default(582346800000),
     // number
     number: joi.number(),
     numberRequired: joi.number().required(),
@@ -215,6 +220,9 @@ describe('index', () => {
             dateDefault: new Date('1988-06-15T03:00:00.000Z'),
             dateDefaultFunc: new Date('1988-06-15T03:00:00.000Z'),
             dateDefaultFuncAsync: new Date('1988-06-15T03:00:00.000Z'),
+			dateTimestamp: 582346800000,
+			dateTimestampJavascript: 582346800000,
+			dateTimestampUnix: 582346800000 / 1000,
             number: 0,
             numberRequired: 0,
             numberDefault: 1,
@@ -296,6 +304,9 @@ describe('index', () => {
                 dateDefault: new Date('1988-06-15T03:00:00.000Z'),
                 dateDefaultFunc: new Date('1988-06-15T03:00:00.000Z'),
                 dateDefaultFuncAsync: new Date('1988-06-15T03:00:00.000Z'),
+				dateTimestamp: 582346800000,
+				dateTimestampJavascript: 582346800000,
+				dateTimestampUnix: 582346800000 / 1000,
                 number: 0,
                 numberRequired: 0,
                 numberDefault: 1,
