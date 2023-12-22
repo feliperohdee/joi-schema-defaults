@@ -22,5 +22,5 @@ module.exports = async ({
 		}
 	}
 
-	return result.toISOString();
+	return result;
 };
