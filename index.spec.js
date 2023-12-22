@@ -48,57 +48,57 @@ const primarySchema = {
         b: 2
     }),
     alternativesDefaultFunc: joi.alternatives(alternatives).default(() => {
-return {
-        a: 1,
-        b: 2
-    };
-}),
+        return {
+            a: 1,
+            b: 2
+        };
+    }),
     alternativesDefaultFuncAsync: joi.alternatives(alternatives).default(async () => {
-return {
-        a: 1,
-        b: 2
-    };
-}),
+        return {
+            a: 1,
+            b: 2
+        };
+    }),
     // array
     array: joi.array(),
     arrayRequired: joi.array().items(joi.string()).required(),
     arrayDefault: joi.array().items(joi.string()).default(['a']),
     arrayDefaultFunc: joi.array().items(joi.string()).default(() => {
-return ['a'];
-}),
+        return ['a'];
+    }),
     arrayDefaultFuncAsync: joi.array().items(joi.string()).default(async () => {
-return ['a'];
-}),
+        return ['a'];
+    }),
     // boolean
     boolean: joi.boolean(),
     booleanRequired: joi.boolean().required(),
     booleanDefault: joi.boolean().default(true),
     booleanDefaultFunc: joi.boolean().default(() => {
-return true;
-}),
+        return true;
+    }),
     booleanDefaultFuncAsync: joi.boolean().default(async () => {
-return true;
-}),
+        return true;
+    }),
     // date
     date: joi.date(),
     dateRequired: joi.date().required(),
     dateDefault: joi.date().default(582346800000),
     dateDefaultFunc: joi.date().default(() => {
-return 582346800000;
-}),
+        return 582346800000;
+    }),
     dateDefaultFuncAsync: joi.date().default(async () => {
-return 582346800000;
-}),
+        return 582346800000;
+    }),
     // number
     number: joi.number(),
     numberRequired: joi.number().required(),
     numberDefault: joi.number().default(1),
     numberDefaultFunc: joi.number().default(() => {
-return 1;
-}),
+        return 1;
+    }),
     numberDefaultFuncAsync: joi.number().default(async () => {
-return 1;
-}),
+        return 1;
+    }),
     // obj
     obj: joi.object(object),
     objRequired: joi.object(object).required(),
@@ -107,47 +107,47 @@ return 1;
         b: 2
     }),
     objDefaultFunc: joi.object(object).default(() => {
-return {
-        a: 1,
-        b: 2
-    };
-}),
+        return {
+            a: 1,
+            b: 2
+        };
+    }),
     objDefaultFuncAsync: joi.object(object).default(async () => {
-return {
-        a: 1,
-        b: 2
-    };
-}),
+        return {
+            a: 1,
+            b: 2
+        };
+    }),
     // string
     string: joi.string(),
     stringRequired: joi.string().required(),
     stringDefault: joi.string().default('default'),
     stringDefaultFunc: joi.string().default(() => {
-return 'default';
-}),
+        return 'default';
+    }),
     stringDefaultFuncAsync: joi.string().default(async () => {
-return 'default';
-}),
+        return 'default';
+    }),
     // string valid
     stringValid: joi.string().valid('bar', 'foo'),
     stringValidRequired: joi.string().valid('bar', 'foo').required(),
     stringValidDefault: joi.string().valid('bar', 'foo').default('foo'),
     stringValidDefaultFunc: joi.string().valid('bar', 'foo').default(() => {
-return 'foo';
-}),
+        return 'foo';
+    }),
     stringValidDefaultFuncAsync: joi.string().valid('bar', 'foo').default(async () => {
-return 'foo';
-}),
+        return 'foo';
+    }),
     // valid
     valid: joi.valid('bar', 'foo'),
     validRequired: joi.valid('bar', 'foo').required(),
     validDefault: joi.valid('bar', 'foo').default('foo'),
     validDefaultFunc: joi.valid('bar', 'foo').default(() => {
-return 'foo';
-}),
+        return 'foo';
+    }),
     validDefaultFuncAsync: joi.valid('bar', 'foo').default(async () => {
-return 'foo';
-}),
+        return 'foo';
+    }),
     // when
     whenRef: joi.number(),
     when,
@@ -345,117 +345,117 @@ describe('index', () => {
         });
     });
 
-	describe('alternatives', () => {
-		it('should works with partial value', async () => {
-			const schema = joi.object(_.pick(primarySchema, [
-				'alternatives',
-				'alternativesDefault',
-				'alternativesDefaultFunc',
-				'alternativesDefaultFuncAsync'
-			]));
+    describe('alternatives', () => {
+        it('should works with partial value', async () => {
+            const schema = joi.object(_.pick(primarySchema, [
+                'alternatives',
+                'alternativesDefault',
+                'alternativesDefaultFunc',
+                'alternativesDefaultFuncAsync'
+            ]));
 
-			const result = await generate(schema, {
-				alternatives: {
-					a: 10
-				},
-				alternativesDefault: {
-					a: 10
-				},
-				alternativesDefaultFunc: {
-					a: 10
-				},
-				alternativesDefaultFuncAsync: {
-					a: 10
-				}
-			});
+            const result = await generate(schema, {
+                alternatives: {
+                    a: 10
+                },
+                alternativesDefault: {
+                    a: 10
+                },
+                alternativesDefaultFunc: {
+                    a: 10
+                },
+                alternativesDefaultFuncAsync: {
+                    a: 10
+                }
+            });
 
-			expect(result).to.deep.equal({
-				alternatives: {
-					a: 10,
-					b: 0
-				},
-				alternativesDefault: {
-					a: 10,
-					b: 0
-				},
-				alternativesDefaultFunc: {
-					a: 10,
-					b: 0
-				},
-				alternativesDefaultFuncAsync: {
-					a: 10,
-					b: 0
-				}
-			});
-		});
-	});
-	
-	describe('object', () => {
-		it('should works with partial value', async () => {
-			const schema = joi.object(_.pick(primarySchema, [
-				'obj',
-				'objDefault',
-				'objDefaultFunc',
-				'objDefaultFuncAsync'
-			]));
+            expect(result).to.deep.equal({
+                alternatives: {
+                    a: 10,
+                    b: 0
+                },
+                alternativesDefault: {
+                    a: 10,
+                    b: 0
+                },
+                alternativesDefaultFunc: {
+                    a: 10,
+                    b: 0
+                },
+                alternativesDefaultFuncAsync: {
+                    a: 10,
+                    b: 0
+                }
+            });
+        });
+    });
 
-			const result = await generate(schema, {
-				obj: {
-					a: 10
-				},
-				objDefault: {
-					a: 10
-				},
-				objDefaultFunc: {
-					a: 10
-				},
-				objDefaultFuncAsync: {
-					a: 10
-				}
-			});
+    describe('object', () => {
+        it('should works with partial value', async () => {
+            const schema = joi.object(_.pick(primarySchema, [
+                'obj',
+                'objDefault',
+                'objDefaultFunc',
+                'objDefaultFuncAsync'
+            ]));
 
-			expect(result).to.deep.equal({
-				obj: {
-					a: 10,
-					b: 0
-				},
-				objDefault: {
-					a: 10,
-					b: 0
-				},
-				objDefaultFunc: {
-					a: 10,
-					b: 0
-				},
-				objDefaultFuncAsync: {
-					a: 10,
-					b: 0
-				}
-			});
-		});
-	});
-	
-	describe('when', () => {
-		it('should works with partial value', async () => {
-			const schema = joi.object(_.pick(primarySchema, [
-				'whenRef',
-				'when',
-				'whenSwitch',
-				'nestedWhen',
-				'nestedWhenSwitch'
-			]));
+            const result = await generate(schema, {
+                obj: {
+                    a: 10
+                },
+                objDefault: {
+                    a: 10
+                },
+                objDefaultFunc: {
+                    a: 10
+                },
+                objDefaultFuncAsync: {
+                    a: 10
+                }
+            });
 
-			const result = await generate(schema, {
-				whenRef: 5
-			});
+            expect(result).to.deep.equal({
+                obj: {
+                    a: 10,
+                    b: 0
+                },
+                objDefault: {
+                    a: 10,
+                    b: 0
+                },
+                objDefaultFunc: {
+                    a: 10,
+                    b: 0
+                },
+                objDefaultFuncAsync: {
+                    a: 10,
+                    b: 0
+                }
+            });
+        });
+    });
 
-			expect(result).to.deep.equal({
-				whenRef: 5,
-				when: 5,
-				whenSwitch: 5,
-				nestedWhen: 5,
-				nestedWhenSwitch: 5
-			});
-		});
-	});
+    describe('when', () => {
+        it('should works with partial value', async () => {
+            const schema = joi.object(_.pick(primarySchema, [
+                'whenRef',
+                'when',
+                'whenSwitch',
+                'nestedWhen',
+                'nestedWhenSwitch'
+            ]));
+
+            const result = await generate(schema, {
+                whenRef: 5
+            });
+
+            expect(result).to.deep.equal({
+                whenRef: 5,
+                when: 5,
+                whenSwitch: 5,
+                nestedWhen: 5,
+                nestedWhenSwitch: 5
+            });
+        });
+    });
 });
