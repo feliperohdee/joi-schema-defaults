@@ -89,11 +89,11 @@ const primarySchema = {
     dateDefaultFuncAsync: joi.date().default(async () => {
         return 582346800000;
     }),
-	// date timestamp javascript
-	dateTimestamp: joi.date().timestamp().default(582346800000),
-	dateTimestampJavascript: joi.date().timestamp('javascript').default(582346800000),
-	// date timestamp unix
-	dateTimestampUnix: joi.date().timestamp('unix').default(582346800000),
+    // date timestamp javascript
+    dateTimestamp: joi.date().timestamp().default(582346800000),
+    dateTimestampJavascript: joi.date().timestamp('javascript').default(582346800000),
+    // date timestamp unix
+    dateTimestampUnix: joi.date().timestamp('unix').default(582346800000),
     // number
     number: joi.number(),
     numberRequired: joi.number().required(),
@@ -220,9 +220,9 @@ describe('index', () => {
             dateDefault: new Date('1988-06-15T03:00:00.000Z'),
             dateDefaultFunc: new Date('1988-06-15T03:00:00.000Z'),
             dateDefaultFuncAsync: new Date('1988-06-15T03:00:00.000Z'),
-			dateTimestamp: 582346800000,
-			dateTimestampJavascript: 582346800000,
-			dateTimestampUnix: 582346800000 / 1000,
+            dateTimestamp: 582346800000,
+            dateTimestampJavascript: 582346800000,
+            dateTimestampUnix: 582346800000 / 1000,
             number: 0,
             numberRequired: 0,
             numberDefault: 1,
@@ -304,9 +304,9 @@ describe('index', () => {
                 dateDefault: new Date('1988-06-15T03:00:00.000Z'),
                 dateDefaultFunc: new Date('1988-06-15T03:00:00.000Z'),
                 dateDefaultFuncAsync: new Date('1988-06-15T03:00:00.000Z'),
-				dateTimestamp: 582346800000,
-				dateTimestampJavascript: 582346800000,
-				dateTimestampUnix: 582346800000 / 1000,
+                dateTimestamp: 582346800000,
+                dateTimestampJavascript: 582346800000,
+                dateTimestampUnix: 582346800000 / 1000,
                 number: 0,
                 numberRequired: 0,
                 numberDefault: 1,
@@ -353,6 +353,93 @@ describe('index', () => {
                 nestedWhen: 7,
                 nestedWhenSwitch: 7
             }
+        });
+    });
+
+    describe('array', () => {
+        it('should works with partial value', async () => {
+            const schema = joi.object({
+                array: joi.array().items(
+                    joi.array().items(joi.string()),
+                    joi.string(),
+                    joi.number(),
+                    joi.boolean(),
+                    object
+                )
+            });
+
+            const result = await generate(schema, {
+                array: [
+                    ['string', 1],
+                    true,
+                    false,
+                    0,
+                    1,
+                    {},
+                    'string'
+                ]
+            });
+
+            expect(result).to.deep.equal({
+                array: [
+                    ['string'],
+                    true,
+                    false,
+                    0,
+                    1,
+                    {
+                        a: 0,
+                        b: 0
+                    },
+                    'string'
+                ]
+            });
+        });
+
+        it('should works with any', async () => {
+            const schema = joi.object({
+                array: joi.array().items(
+                    joi.any()
+                )
+            });
+
+            const result = await generate(schema, {
+                array: [null]
+            });
+
+            expect(result).to.deep.equal({
+                array: [null]
+            });
+        });
+        
+		it('should works with object with when', async () => {
+            const schema = joi.object({
+                array: joi.array().items(
+                    joi.object(_.pick(primarySchema, [
+                        'whenRef',
+                        'when',
+                        'whenSwitch',
+                        'nestedWhen',
+                        'nestedWhenSwitch'
+                    ]))
+                )
+            });
+
+            const result = await generate(schema, {
+                array: [{
+                    whenRef: 5
+                }]
+            });
+
+            expect(result).to.deep.equal({
+                array: [{
+                    whenRef: 5,
+                    when: 5,
+                    whenSwitch: 5,
+                    nestedWhen: 5,
+                    nestedWhenSwitch: 5
+                }]
+            });
         });
     });
 
@@ -443,6 +530,17 @@ describe('index', () => {
                     b: 0
                 }
             });
+        });
+        
+		it('should works with unknown object', async () => {
+            const schema = joi.object().unknown();
+            const result = await generate(schema, {
+                a: 10
+            });
+
+            expect(result).to.deep.equal({
+				a: 10
+			});
         });
     });
 

@@ -14,18 +14,26 @@ module.exports = async ({
 		value
 	});
 
-	result = await Promise.all(_.map(schema.keys, async (schema, key) => {
-		const handler = await context.tf.seek(schema);
+	const {
+		flags = {}
+	} = schema;
 
-		return [key, await handler({
-			context: {
-				...context,
-				path: [...context.path, key]
-			},
-			schema,
-			value: _.get(result, key)
-		})];
-	}));
+	if (!flags.unknown) {
+		result = await Promise.all(_.map(schema.keys, async (schema, key) => {
+			const handler = await context.tf.seek(schema);
+	
+			return [key, await handler({
+				context: {
+					...context,
+					path: [...context.path, key]
+				},
+				schema,
+				value: _.get(result, key)
+			})];
+		}));
+	
+		return _.fromPairs(result);
+	}
 
-	return _.fromPairs(result);
+	return result;
 };
