@@ -1,6 +1,10 @@
 const _ = require('lodash');
 
 const getPathAncestor = (path, ancestor = 1) => {
+	if (ancestor === 'root') {
+		return [];
+	}
+
 	if (_.isString(path)) {
 		path = _.toPath(path);
 	}

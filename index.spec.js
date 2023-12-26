@@ -441,6 +441,44 @@ describe('index', () => {
                 }]
             });
         });
+		
+		it('should works with object with when with ancestor value', async () => {
+            const schema = joi.object({
+                array: joi.array().items(
+                    joi.object({
+						when: joi.when('/whenRef', {
+							is: 5,
+							then: joi.number().default(5),
+							otherwise: joi.number().default(7)
+						}),
+						whenSwitch: joi.when('....whenRef', {
+							switch: [{
+								is: 5,
+								then: joi.number().default(5)
+							}, {
+								is: 6,
+								then: joi.number().default(6)
+							}],
+							otherwise: joi.number().default(7)
+						})
+					})
+                ),
+				whenRef: joi.number()
+            });
+
+            const result = await generate(schema, {
+                array: [{}],
+				whenRef: 5
+            });
+
+            expect(result).to.deep.equal({
+                array: [{
+                    when: 5,
+					whenSwitch: 5
+                }],
+				whenRef: 5
+            });
+        });
     });
 
     describe('alternatives', () => {
