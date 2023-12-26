@@ -15,11 +15,12 @@ module.exports = async ({
 	});
 
 	const {
-		flags = {}
+		flags = {},
+		keys = []
 	} = schema;
 
 	if (!flags.unknown) {
-		result = await Promise.all(_.map(schema.keys, async (schema, key) => {
+		result = await Promise.all(_.map(keys, async (schema, key) => {
 			const handler = await context.tf.seek(schema);
 	
 			return [key, await handler({

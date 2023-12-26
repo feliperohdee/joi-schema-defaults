@@ -10,7 +10,6 @@
 	"rules": {
 		"array-bracket-newline": 0,
 		"arrow-body-style": ["error", "always"],
-		"arrow-parens": ["error", "always"],
 		"brace-style": "error",
 		"camelcase": 2,
 		"comma-dangle": 2,
@@ -22,7 +21,6 @@
 		"eqeqeq": "error",
 		"for-direction": 2,
 		"getter-return": 2,
-		"guard-for-in": "error",
 		"newline-before-return": 2,
 		"no-async-promise-executor": 2,
 		"no-case-declarations": "off",

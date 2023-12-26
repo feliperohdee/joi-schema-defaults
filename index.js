@@ -1,3 +1,5 @@
+const desc = require('./describe');
+
 class TypeFactory {
 	constructor() {
 		this.handlers = {
@@ -26,7 +28,7 @@ class TypeFactory {
 const tf = new TypeFactory();
 
 module.exports = async (schema, value) => {
-	schema = schema.describe();
+	schema = desc(schema);
 	const handler = await tf.seek(schema);
 	
 	return handler({
